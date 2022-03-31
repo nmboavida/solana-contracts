@@ -1,3 +1,4 @@
+use crate::processor::Processor;
 use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey};
 
 #[cfg(not(feature = "no-entrypoint"))]
@@ -18,5 +19,5 @@ fn process_instruction(
     );
 
     // Run processor here
-    
+    Processor::process_instruction(program_id, accounts, instruction_data)
 }
