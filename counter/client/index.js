@@ -6,7 +6,7 @@ const {
     SystemProgram,
     PublicKey,
     TransactionInstruction,
-} = require("solana/web3.js");
+} = require("@solana/web3.js");
 
 const BN = require("bn.js");
 
@@ -46,7 +46,7 @@ const main = async() => {
             fromPubkey: feePayer.publicKey,
             newAccountPubkey: counterKey,
             // Amount of lamports to transfer to the created account
-            lamports: await connection.getMinimumBalanceForREntExemption(8),
+            lamports: await connection.getMinimumBalanceForRentExemption(8),
             // Amount of space in bytes to allocate to the created account
             space: 8,
             // Public Key of the program to assign as the owner of the created account
