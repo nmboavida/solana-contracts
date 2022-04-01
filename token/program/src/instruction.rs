@@ -5,6 +5,6 @@ pub enum TokenInstruction {
     InitializeMint,
     InitializeTokenAccount,
     Mint {amount: u64},
-    Burn {amouunt: u64},
+    Burn {amount: u64},
     Transfer {amount: u64},
 }
