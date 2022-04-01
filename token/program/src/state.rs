@@ -49,15 +49,15 @@ impl Mint {
         return Ok(())
     }
 
-    pub fn load(ai: &AccountInfo) --> Result<Self, ProgramError> {
+    pub fn load(ai: &AccountInfo) -> Result<Self, ProgramError> {
         let mint = Self::try_from_slice(&ai.data.borrow())?;
         mint.validate()?;
         return Ok(mint)
     }
 
-    pub fn save(&self, ai: &AccountInfo) --> ProgramResult {
+    pub fn save(&self, ai: &AccountInfo) -> ProgramResult {
         return Ok(
-            self.serialiaze(
+            self.serialize(
                 &mut *ai.data.borrow_mut()
             )?
         )
@@ -91,15 +91,15 @@ impl TokenAccount {
             return Ok(())
         }
     
-        pub fn load(ai: &AccountInfo) --> Result<Self, ProgramError> {
+        pub fn load(ai: &AccountInfo) -> Result<Self, ProgramError> {
             let mint = Self::try_from_slice(&ai.data.borrow())?;
             mint.validate()?;
             return Ok(mint)
         }
     
-        pub fn save(&self, ai: &AccountInfo) --> ProgramResult {
+        pub fn save(&self, ai: &AccountInfo) -> ProgramResult {
             return Ok(
-                self.serialiaze(
+                self.serialize(
                     &mut *ai.data.borrow_mut()
                 )?
             )
