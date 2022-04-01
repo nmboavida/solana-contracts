@@ -42,6 +42,8 @@ const main = async() => {
         const counter = new Keypair();
         counterKey =  counter.publicKey;
 
+        // Because the transactoin itself is a list of instructions, this is the first instruction that gets executed
+        // Under the hoo createAccount is handling the serialization for you
         let createIx = SystemProgram.createAccount({
             fromPubkey: feePayer.publicKey,
             newAccountPubkey: counterKey,
@@ -63,6 +65,7 @@ const main = async() => {
     // Corresponds to initial index of the counter, which is zero (represented by 8 bits of 0)
     const idx = Buffer.from(new Uint8Array([0])); // this corresponds to CounterInstruction::Increment which is 8 bit / 1 byte object
 
+    // This is the instruction that increases the counter
     let incrIx = new TransactionInstruction({
         keys: [
             {
