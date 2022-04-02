@@ -1,4 +1,4 @@
-use borsh::{BorshDeserialize,  BorshSerialize};
+use borsh::{BorshDeserialize};
 use solana_program::{
     account_info::{AccountInfo, next_account_info},
     entrypoint::ProgramResult,
@@ -44,7 +44,7 @@ impl Processor {
                     mint_authority.is_signer,
                     ProgramError::MissingRequiredSignature,
                     "Mint authority must sign!"
-                );
+                )?;
 
                 mint.tag = AccountTag::Mint;
                 mint.authority = *mint_authority.key;
@@ -54,7 +54,7 @@ impl Processor {
             TokenInstruction::InitializeTokenAccount => {
                 let token_account_ai = next_account_info(accounts_iter)?; // AccountInfo object
                 let mint_ai = next_account_info(accounts_iter)?;  // AccountInfo object
-                let mint = Mint::load(mint_ai)?; // validated Mint object
+                //let mint = Mint::load(mint_ai)?; // validated Mint object
                 let owner = next_account_info(accounts_iter)?;  // AccountInfo object
                 let mut token_account = TokenAccount::load_unchecked(token_account_ai)?; // TokenAccount object
 
@@ -77,7 +77,7 @@ impl Processor {
                     mint_authority.is_signer,
                     ProgramError::MissingRequiredSignature,
                     "Mint authority must sign."
-                );
+                )?;
 
                 // unsafe --> check for numerical overflow
                 mint.supply += amount;
