@@ -40,24 +40,28 @@ impl Processor {
                 let accounts_iter = &mut accounts.iter();
                 let counter_ai = next_account_info(accounts_iter)?; // AccountInfo
                 // We not only pass the counter but also the authority
-                let authority = next_account_info(accounts_iter)?;
+                let authority_ai = next_account_info(accounts_iter)?;
 
                 // Only if there is an authority signature
+                // Checks if there is a signature in the instrucitons that corresponds to the authority_ai Pubkey
                 asssert_with_msg(
-                    authority.is_signer,
+                    authority_ai.is_signer,
                     ProgramError::MissingRequiredSignature,
                     "Authority must sign."
                 )?;
 
+                // Fetches the data from the counter_ai
                 let mut counter = Counter::try_from_slice(&counter_ai.data.borrow())?;
                 
                 if counter.count == 0 {
                     // Set the counter authority if it's the first time counter is being used
-                    counter.authority = *authority.key;
+                    counter.authority = *authority_ai.key;
                 }
-                // Right authority must sign
+                // Checks that claiming authority is the actual authority for the requested data buffer
                 asssert_with_msg(
-                    counter.authority == *authority.key,
+                    //counter.authority is really &counter_ai.data.authority 
+                    // authority_ai.key is the pubkey from the claimed authority according to the parameters
+                    counter.authority == *authority_ai.key,
                     ProgramError::MissingRequiredSignature,
                     "Attempted to increment with an invalid authority"
                 )?;

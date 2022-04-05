@@ -10,5 +10,8 @@ borsh = "0.9"
 solana-program = "1.9.1"
 thiserror = "1.0"
 
+[features]
+no-entrypoint = []
+
 [lib]
 crate-type = ["cdylib", "lib"]
